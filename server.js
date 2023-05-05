@@ -7,14 +7,14 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const classes = require("./routes/class");
 const users = require("./routes/user");
-
+require("dotenv").config();
 app.set("views", __dirname + "/views");
 app.engine("html", require("ejs").renderFile);
 
 // Put these statements before you define any routes.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors({ origin: " http://localhost:5173" }));
+app.use(cors());
 app.use("/", classes);
 app.use("/", users);
 
@@ -22,8 +22,7 @@ app.use("/", users);
 
 // mongo connection
 mongoose.set("strictQuery", true);
-const url =
-    "mongodb+srv://netpes:netpes@cluster0.cnxmrap.mongodb.net/?retryWrites=true&w=majority";
+const url = process.env.MONGO_DB;
 mongoose?.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
